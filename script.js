@@ -56,35 +56,6 @@ function formatToolTip(d) {
   return html;
 }
 
-// Function that takes an array of two dates signifying a range
-// and expands that range by the unit and value passed
-function expandTimeDomain(extent, unit, val) {
-  val = Math.floor(val);
-  let change = [val * (-1), val];
-  if (extent[0] > extent[1]) {
-    change = [val, val * (-1)];
-  }
-
-  extent.forEach((entry, index) => {
-    let year = entry.getFullYear();
-    let month = entry.getMonth();
-    let day = entry.getDate();
-    let hours = entry.getHours();
-    let minutes = entry.getMinutes();
-    let seconds = entry.getSeconds();
-    let milliseconds = entry.getMilliseconds();
-    let dateArray = [year, month, day, hours, minutes, seconds, milliseconds];
-    let unitArray = ["years", "months", "days", "hours", "minutes", "seconds", "milliseconds"];
-    let unitIndex = unitArray.indexOf(unit);
-
-    dateArray[unitIndex] = dateArray[unitIndex] + change[index];
-
-    let newDate = new Date(dateArray[0], dateArray[1], dateArray[2], dateArray[3], dateArray[4], dateArray[5]);
-    extent[index] = newDate;
-  });
-  return extent;
-}
-
 d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/cyclist-data.json", (error, data) => {
   if (error) throw error;
 
@@ -102,6 +73,7 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
        .attr("transform", "translate(0," + height + ")")
        .call(xAxis);
 
+  // x-Axis Label
   chart.append("text")
        .attr("class", "label")
        .attr("x", width / 2)
@@ -138,12 +110,54 @@ d3.json("https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/mas
        .style("fill", "none")
        .style("shape-rendering", "crispEdges");
 
+  // Chart Title
   chart.append("g").append("text")
        .attr("class", "title")
        .attr("x", width / 2)
        .attr("y", 0 - margin.top / 2)
        .style("text-anchor", "middle")
        .text("The 35 Fastest Times Up Alpe d'Huez: Doping in Professional Bicycle Racing");
+
+  // Legend
+  let legendX = 490;
+  let legendY = 20;
+  let legendWidth = 300;
+  let legendHeight = 80;
+  let legend = chart.append("g").attr("transform", "translate(" + legendX + "," + legendY + ")");
+
+  legend.append("rect")
+       .attr("class", "legend")
+       .attr("width", legendWidth)
+       .attr("height", legendHeight)
+       .style("fill", "none")
+       .style("stroke", "black")
+       .style("shape-rendering", "crispEdges");
+
+  legend.append("circle")
+        .attr("class", "legend-dot dot")
+        .attr("r", 5)
+        .attr("cx", 20)
+        .attr("cy", legendHeight / 3)
+        .style("fill", "rgba(191, 24, 9, 0.9)");
+
+  legend.append("text")
+        .attr("class", "legent-text")
+        .attr("x", legendWidth / 7)
+        .attr("y", legendHeight / 3 + 5)
+        .text("Cyclists With Doping Allegations");
+
+  legend.append("text")
+        .attr("class", "legent-text")
+        .attr("x", legendWidth / 7)
+        .attr("y", legendHeight * (2 / 3) + 5)
+        .text("Cyclists Without Doping Allegations");
+
+  legend.append("circle")
+        .attr("class", "legend-dot dot")
+        .attr("r", 5)
+        .attr("cx", 20)
+        .attr("cy", legendHeight * (2 / 3))
+        .style("fill", "rgba(8, 92, 160, 0.9)");
 
   // Plot Points
   chart.selectAll(".dot")
