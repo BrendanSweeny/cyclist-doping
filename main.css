@@ -1,0 +1,58 @@
+body {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+svg {
+  display: block;
+  margin: auto;
+}
+
+.container {
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0%;
+  right: 0%;
+  top: 5%;
+}
+
+#sources {
+  text-align: left;
+  margin: 0.5em;
+  font-size: 0.9em;
+}
+
+a {
+  color: rgb(8, 92, 160);
+}
+
+.dot {
+  stroke: black;
+}
+
+.axis, .border {
+  stroke-width: 0.1em;
+  shape-rendering: crispEdges;
+}
+
+.tick, .title, .label {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+#toolTip {
+  position: absolute;
+  display: none;
+  min-width: 20px;
+  height: auto;
+  border-radius: 3px;
+  padding: 0px 10px 0px 10px;
+  margin: 0px 10px 0px 10px;
+  text-align: left;
+  color: white;
+  pointer-events: none;
+}
+
+#toolTip > h3, #toolTip > p {
+  margin: 5px;
+}
